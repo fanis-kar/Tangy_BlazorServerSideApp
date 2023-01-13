@@ -1,0 +1,50 @@
+URL: https://www.youtube.com/watch?v=QKr1HPq6YlI&ab_channel=DotNetMastery
+
+Solution Items:
+TangyWeb_Server -> Blazor Server App
+TangyWeb_Client -> Blazor WebAssembly App
+
+-------------------------------------------------
+Στο Blazor όλα είναι components.
+
+Στο TangyWeb_Server\Pages\_Host.cshtml
+έχουμε το main component μας, το οποίο είναι type="typeof(App)"
+
+Στο TangyWeb_Server\App.razor γίνεται πραγματικά το routing.
+Μέσα έχουμε δύο components (Found/NotFound).
+
+Κάθε .razor σελίδα μέσα στο TangyWeb_Server\Pages\
+περιέχει το @page, με αυτό γίνεται defined το route.
+
+Στο TangyWeb_Server\Pages\Index.razor βλέπουμε
+το SurveyPrompt component, το οποίο βρίσκεται στο:
+TangyWeb_Server\Shared\SurveyPrompt.razor
+
+Για να φτιάξουμε ένα νέο Componet, κάνουμε right click στο φάκελο:
+TangyWeb_Server\Pages\LearnBlazor -> Add Razor Component "BindProp"
+και ορίζουμε το routing του ως: @page "/learnBlazor/bindProp"
+
+και για να το προσθέσουμε στην sidebar πάμε στο:
+TangyWeb_Server\Shared\NavMenu.razor
+
+-------------------------------------------------
+Blazor WebAssembly App vs Blazor Server App
+
+Στο Blazor WebAssembly App δεν έχουμε appsettings.json
+Συνήθως σε αυτά τα projects κάνουμε comsume APIs.
+
+Τα App.razor είναι ίδια.
+
+Στα Blazor Server App το Program.cs είναι πολύ διαφορετικό από του 
+WebAssembly. Στο πρώτο πρέπει να κάνουμε add τα services στο container.
+Να κάνουμε config το pipeline. Καθώς και να κάνουμε build το application.
+
+Στο Blazor WebAssembly App, κάνουμε create το default application.
+By default, είναι ορισμένο ένα service, το HttpClient service.
+
+Επίσης, πρέπει να ορίσουμε το Root Component, το #app 
+(όπως στην Vue.js κ.α.) στο builder.
+
+Το #app βρίσκεται στο TangyWeb_Client\wwwroot\index.html
+Μέχρι να φορτώσει το #app βλέπουμε loading...
+-------------------------------------------------
