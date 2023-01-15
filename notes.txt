@@ -3,6 +3,7 @@ URL: https://www.youtube.com/watch?v=QKr1HPq6YlI&ab_channel=DotNetMastery
 Solution Items:
 TangyWeb_Server -> Blazor Server App
 TangyWeb_Client -> Blazor WebAssembly App
+Tangy_Models -> Class Library
 
 -------------------------------------------------
 Στο Blazor όλα είναι components.
@@ -26,6 +27,59 @@ TangyWeb_Server\Pages\LearnBlazor -> Add Razor Component "BindProp"
 
 και για να το προσθέσουμε στην sidebar πάμε στο:
 TangyWeb_Server\Shared\NavMenu.razor
+
+(2 way - Data Binding)
+Μπορούμε μέσα σε .razor σελίδα (π.χ. TangyWeb_Server\Pages\LearnBlazor\BindProp.razor)
+να γράψουμε C#. π.χ. να δημιουργήσουμε ένα νέο αντικείμενο.
+Προσοχή κατά τη δημιουργία ενός αντικειμένου πρέπει να γράψουμε το full-path
+της κλάσης π.χ. Tangy_Models.LearnBlazorModels.Demo_Product
+Για να πετύχουμε 2 way data binding, πρέπει στα input texts
+αντί για values, να βάζουμε data-binding. Τώρα όταν αλλάζουμε το πεδίο από το
+input text πεδίο, αλλάζει και η τιμή του property στο αντικείμενο.
+
+Στο TangyWeb_Server\_Imports.razor μπορούμε να βάλουμε τα references
+των classes. π.χ. @using Tangy_Models.LearnBlazorModels
+
+Ένα από τα Lifecycles στο Blazor είναι όταν ένα component γίνεται initialized.
+Στο TangyWeb_Server\Pages\LearnBlazor\BindProp.razor
+έχουμε το protected override void OnInitialized() που κάνουμε populate τη λίστα με τα products.
+
+Στο TangyWeb_Server\Pages\LearnBlazor\DemoProduct.razor
+αντί να γράφουμε ξανά και ξανά κώδικα για το delete & edit
+θα φτιάξουμε components για να τα χρησιμοποιούμε 
+σε πολλά σημεία του κώδικα (όπως είναι τα partial views στο MVC).
+Αυτά λέγονται και Shared Components.
+
+Στο TangyWeb_Server\Pages\LearnBlazor\LearnBlazorComponents\_EditDeleteButton.razor
+βλέπουμε ότι δεν έχουμε routing.
+
+Το καλούμε από άλλη .razor ως <TangyWeb_Server.Pages.LearnBlazor.LearnBlazorComponents._EditDeleteButton/>
+Μπορούμε να περάσουμε και παραμέτρους
+π.χ. <_EditDeleteButton IsActive="@prod.IsActive">
+και στο Shared Component πρέπει να το έχουμε ορίσει 
+[Parameter]
+public bool IsActive { get; set; }
+
+Θέλουμε μέσα από το TangyWeb_Server\Pages\LearnBlazor\LearnBlazorComponents\IndividualProduct.razor
+να καλέσουμε μια μέθοδο (FavouriteCountUpdate)
+του TangyWeb_Server\Pages\LearnBlazor\DemoProduct.razor
+αυτό θα το κάνουμε με Event Callback
+
+Παιρνάμε και τη μέθοδο ως παράμετρο μαζί με το product.
+δηλαδή: product="prod" OnFavouriteUpdated="FavouriteCountUpdate"
+και μετά στο child component
+[Parameter]
+public EventCallback<bool> OnFavouriteUpdated { get; set; }
+
+private async Task FavouriteUpdated(ChangeEventArgs e)
+{
+    await OnFavouriteSelection.InvokeAsync((bool)e.Value);            
+}
+
+Μπορούμε από το Parent Component να περάσουμε τιμές στο Child
+όταν το καλούμε ανάμεσα στα html tags.
+<_ChildComponent>This is Render Fragment From Parent!</_ChildComponent>
+Αυτό λέγεται render fragment. Και μπορούμε να ορίσουμε πολλά RF σε ένα component.
 
 -------------------------------------------------
 Blazor WebAssembly App vs Blazor Server App

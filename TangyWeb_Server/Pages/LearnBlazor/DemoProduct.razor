@@ -1,0 +1,74 @@
+﻿@page "/learnBlazor/demoProduct"
+
+<h2 class="text-primary">DemoProduct</h2>
+<p>Favourites Total: @SelectedFavouriteCount</p>
+<p>Last Selected Product: @LastSelectedProductName</p>
+
+<div class="border p-2 mt-2" style="background-color:azure;">
+    <div class="row">
+        @foreach(var prod in products)
+        {
+            <IndividualProduct 
+            product="prod" 
+            OnFavouriteUpdated="FavouriteCountUpdate"
+            OnLastSelectedProductChange="SelectedProductUpdate">
+
+            <FirstFragment>#1</FirstFragment>
+            <SecondFragment>#2</SecondFragment>
+
+            </IndividualProduct>
+        }
+    </div>
+</div>
+
+@code {
+    List<Demo_Product> products = new();
+
+    private int SelectedFavouriteCount { get; set; } = 0;
+    private string LastSelectedProductName { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+        products.Add(new()
+            {
+                Id = 1,
+                Name = "Iphone 14 Pro",
+                Price = 1000.99,
+                IsActive = false,
+                ProductProperties = new List<Demo_ProductProp>()
+                {
+                    new Demo_ProductProp { Id = 1, Key = "Color", Value = "Space Gray" },
+                    new Demo_ProductProp { Id = 2, Key = "Memory", Value = "256 GB" },
+                    new Demo_ProductProp { Id = 3, Key = "CPU", Value = "M1" }
+                }
+            });
+
+        products.Add(new()
+        {
+            Id = 2,
+            Name = "Samsung Galaxy S22 Ultra",
+            Price = 1100.99,
+            IsActive = true,
+            ProductProperties = new List<Demo_ProductProp>()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Color", Value = "White" },
+                new Demo_ProductProp { Id = 2, Key = "Memory", Value = "125 GB" },
+                new Demo_ProductProp { Id = 3, Key = "CPU", Value = "Snapdragon" }
+            }
+        });
+    }
+
+    protected void FavouriteCountUpdate(bool isSelected)
+    {
+        if (isSelected)
+            SelectedFavouriteCount++;
+        else
+            SelectedFavouriteCount--;
+    }
+
+    protected void SelectedProductUpdate(string productName)
+    {
+        LastSelectedProductName = productName;
+    }
+}

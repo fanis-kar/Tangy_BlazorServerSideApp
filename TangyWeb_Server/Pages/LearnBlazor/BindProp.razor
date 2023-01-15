@@ -1,7 +1,146 @@
 ﻿@page "/learnBlazor/bindProp"
 
-<h3>BindProp</h3>
+<h2 class="text-success">Individual Product</h2>
+
+<div class="row">
+    <div class="col-6 border p-3">
+
+        <h3 class="text-primary">Product Playground</h3>
+        <hr />
+
+        <div>
+            Active: <input type="checkbox" @bind-value="@product.IsActive" checked="@(product.IsActive ? "checked" : null)" /><br />
+        </div>
+
+        <div>
+            Price: <input type="number" @bind-value="@product.Price" @bind-value:event="oninput" /><br />
+        </div>
+
+        <div>
+            Product Properties:
+            <select @bind="selectedProp">
+                @foreach (var prop in product.ProductProperties)
+                {
+                    <option value="@prop.Key">@prop.Key</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="col-6 border p-3">
+
+        <h3 class="text-primary">Product Summary</h3>
+        <hr />
+
+        <div>
+            Name: @product.Name<br />
+        </div>
+
+        <div>
+            Active: @product.IsActive<br />
+        </div>
+
+        <div>
+            Price: @product.Price<br />
+        </div>
+
+        <div>
+            This product is: @(product.IsActive ? "Active" : "InActive")<br />
+        </div>
+
+        <div>
+            Property Selected: @selectedProp<br />
+        </div>
+
+        <div>
+            @if (!String.IsNullOrWhiteSpace(selectedProp))
+            {
+                <p>Property Value: @product.ProductProperties.FirstOrDefault(p => p.Key == selectedProp).Value</p>
+            }
+        </div>
+    </div>
+
+    <div class="col-12 pt-4">
+        <h2 class="text-success">Product Table</h2>
+
+        <table class="table table-bordered table-hover">
+            <tbody>
+                @foreach(var prod in products)
+                {
+                    <tr>
+                        <td>
+                            <input type="text" @bind-value="@prod.Name" @bind-value:event="oninput" />
+                        </td>
+                        <td>
+                            <input type="number" @bind-value="@prod.Price" @bind-value:event="oninput" />
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" @bind-value="@prod.IsActive" checked="@(prod.IsActive ? "checked" : null)" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br /><br />
+
+        <h2>Product Summary</h2>
+
+        @foreach(var prod in products)
+        {
+            <p>@prod.Name [@prod.Price] is @(prod.IsActive ? "Active" : "InActive")</p>
+        }
+    </div>
+</div>
 
 @code {
+    private string selectedProp = "";
 
+    Demo_Product product = new()
+        {
+            Id = 1,
+            Name = "Iphone 14 Pro",
+            Price = 1000.99,
+            IsActive = true,
+            ProductProperties = new List<Demo_ProductProp>()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Color", Value = "Space Gray" },
+                new Demo_ProductProp { Id = 2, Key = "Memory", Value = "256 GB" },
+                new Demo_ProductProp { Id = 3, Key = "CPU", Value = "M1" }
+            }
+        };
+
+    List<Demo_Product> products = new();
+
+    protected override void OnInitialized()
+    {
+
+        products.Add(new()
+            {
+                Id = 1,
+                Name = "Iphone 14 Pro",
+                Price = 1000.99,
+                IsActive = true,
+                ProductProperties = new List<Demo_ProductProp>()
+                {
+                    new Demo_ProductProp { Id = 1, Key = "Color", Value = "Space Gray" },
+                    new Demo_ProductProp { Id = 2, Key = "Memory", Value = "256 GB" },
+                    new Demo_ProductProp { Id = 3, Key = "CPU", Value = "M1" }
+                }
+            });
+
+        products.Add(new()
+        {
+            Id = 2,
+            Name = "Samsung Galaxy S22 Ultra",
+            Price = 1100.99,
+            IsActive = true,
+            ProductProperties = new List<Demo_ProductProp>()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Color", Value = "White" },
+                new Demo_ProductProp { Id = 2, Key = "Memory", Value = "125 GB" },
+                new Demo_ProductProp { Id = 3, Key = "CPU", Value = "Snapdragon" }
+            }
+        });
+    }
 }

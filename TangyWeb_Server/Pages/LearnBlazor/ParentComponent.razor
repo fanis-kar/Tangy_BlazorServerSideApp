@@ -1,0 +1,28 @@
+﻿@page "/learnBlazor/parentComponent"
+
+<h3>Parent Child Relation</h3>
+
+<_ChildComponent OnButtonClick="ShowMessage" 
+Title="This title is passed as parameter from Parent Component">
+<ChildContent>Render Fragment From Parent</ChildContent>
+<DangerChildContent>Danger Content From Fragment</DangerChildContent>
+</_ChildComponent>
+
+<p><strong>@messageText</strong></p>
+
+@*<_ChildComponent 
+Title="This is second child component">
+</_ChildComponent>
+*@
+
+<_AnotherComponent Placeholder="Placeholder from Parent"></_AnotherComponent>
+@*<_AnotherComponent ></_AnotherComponent>*@
+
+@code {
+    public string messageText = "";
+
+    private void ShowMessage()
+    {
+        messageText = "Tangy button clicked from Child Component";
+    }
+}
