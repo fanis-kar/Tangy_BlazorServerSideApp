@@ -81,6 +81,32 @@ private async Task FavouriteUpdated(ChangeEventArgs e)
 <_ChildComponent>This is Render Fragment From Parent!</_ChildComponent>
 Αυτό λέγεται render fragment. Και μπορούμε να ορίσουμε πολλά RF σε ένα component.
 
+Έστω ότι έχουμε 3 διαδοχικά components (Parent, _Child, _GrandChild)
+αν θέλουμε να περάσουμε παράμετρο από το Parent στο _GrandChild,
+θα έπρεπε να την περάσουμε και στο _Child και στη συνέχεια
+αυτό να το περάσει στο _GrandChild.
+
+Αυτό μπορεί να λυθεί (να περάσουμε παράμετρο κατευθείαν μόνο στο _GrandChild)
+με CascadingParameter.
+
+Ένα component μπορεί να έχει πολλά routes π.χ.:
+@page "/learnBlazor/learnRouting"
+@page "/learnRouting"
+
+Επίσης, μπορούμε να περάσουμε και παραμέτρους. π.χ.:
+@page "/learnBlazor/learnRouting/{parameter1}/{parameter2}"
+
+Μπρούμε να κάνουμε parse query string parameters (learnRouting?Param1=Tangy&Param2=Blazor)
+με το @inject NavigationManager
+
+Μπορούμε να εισάγουμε JavaScript κώδικα με το @inject IJSRuntime _JsRuntime
+
+Από το ParentComponent μπορούμε να φτιάξουμε ένα reference του
+_ChildComponent και να έχουμε πρόσβαση σε όλες τις public μεθόδους. 
+private _ChildComponent childComp;
+<_ChildComponent @ref="childComp" ...>
+
+
 -------------------------------------------------
 Blazor WebAssembly App vs Blazor Server App
 
