@@ -4,6 +4,9 @@ Solution Items:
 TangyWeb_Server -> Blazor Server App
 TangyWeb_Client -> Blazor WebAssembly App
 Tangy_Models -> Class Library
+Tangy_Business -> Class Library
+Tangy_Common -> Class Library
+Tangy_DataAccess -> Class Library
 
 -------------------------------------------------
 Στο Blazor όλα είναι components.
@@ -106,6 +109,21 @@ _ChildComponent και να έχουμε πρόσβαση σε όλες τις p
 private _ChildComponent childComp;
 <_ChildComponent @ref="childComp" ...>
 
+Έχουμε 5 Life cycles στο Blazor:
+1) OnInitialized(Async) - εκτελείται όταν ένα component έχει φορτωθεί τελείως.
+2) OnParametersSet(Async) - όταν ένα componet αρχικοποιείται και κάθε φορά
+που μία νέα ή ενημερωμένη παράμετρος λαμβάνεται στο render tree
+3) OnAfterRender(Async) - καλείται μετά το render ενός component
+4) ShouldRender - επιστρέφει Boolean. αν είναι true κάνει refresh το UI. 
+αλλιώς οι αλλαγές δεν παιρνάνε στο UI.
+5) StateHasChanged() - αυτή η μέθοδος ειδοποιεί το component πως
+η κατάσταση του έχει αλλάξει.
+
+Entity Framework Core - Code First
+
+PM CONSOLE (Tangy_DataAccess):
+add-migration AddCategoryToDatabase
+update-database
 
 -------------------------------------------------
 Blazor WebAssembly App vs Blazor Server App
